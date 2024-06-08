@@ -1,0 +1,152 @@
+let xbaguete = 5; 
+let ybaguete = 150; 
+let xpao = 100;
+let ypao = 200; 
+let diametro = 13;
+let raio = diametro / 2 ;
+
+let velxpao = 6;
+let velypao = 6;
+let bagueteComprimento = 10;
+let bagueteAltura = 90;
+
+let xbagueteOponente = 585;
+let ybagueteOponente = 150;
+let velyOponente;
+
+
+let colidiu = false;
+   
+let meusCookies =0;
+let cookiesOponentes = 0;
+
+function setup() {
+  createCanvas(600, 400);
+}
+
+function draw() {
+  background(106,90,205);
+  mostraBolinha();
+  movimentarBolinha();
+  verificarColisaoBorda();
+  mostrabaguete(xbaguete,ybaguete);
+  MovimentarMinhaBaguete();
+  verificarColisaoBaguete();
+  colisaoMinhaBagueteBiblioteca();
+  mostrabaguete(xbagueteOponente, ybagueteOponente);
+  MovimentarMinhaBagueteOponente();
+  colisaoMinhaBagueteOponenteBiblioteca();
+   incluiPlacar(); 
+  marcaCookies();
+}
+function mostraBolinha(){
+  circle(xpao, ypao, diametro);
+ }
+
+function movimentarBolinha(){
+  xpao += velxpao;
+ // ypao += velypao;
+}
+  
+  function  verificarColisaoBorda(){
+    
+     
+  if (xpao + raio> width ||
+     xpao - raio< 0){
+  velxpao *=  -1;
+    
+  }
+  
+  if (ypao + raio> height ||
+     ypao - raio< 0){
+  velypao *=  -1;
+  }
+  }
+  
+function mostrabaguete(x,y){
+  rect(x, y, bagueteComprimento, bagueteAltura);
+  
+}
+
+
+function MovimentarMinhaBaguete(){
+   if (keyIsDown(UP_ARROW)){
+    ybaguete -= 10 
+   }
+  
+  if (keyIsDown(DOWN_ARROW)){
+    ybaguete += 10 
+   }
+  
+}
+
+function verificarColisaoBaguete(){
+if (xpao - raio < xbaguete + bagueteComprimento && ypao - raio < ybaguete + bagueteAltura && ypao + raio > ybaguete){
+  velxpao *= -1;
+                                        }  
+  
+}
+
+function colisaoMinhaBagueteBiblioteca(){ 
+ colidiu =
+collideRectCircle(xbaguete, ybaguete, bagueteComprimento,  bagueteAltura ,xpao, ypao, raio);
+if (colidiu){
+    velxpao *= -1;
+                  
+}
+    }
+
+
+function colisaoMinhaBagueteOponenteBiblioteca(){ 
+ colidiu =
+collideRectCircle(xbagueteOponente, ybagueteOponente, bagueteComprimento,  bagueteAltura ,xpao, ypao, raio);
+if (colidiu){
+    velxpao *= -1;
+                  
+}
+    }
+
+
+
+function MovimentarMinhaBagueteOponente(){
+    if (keyIsDown(87)){
+    ybagueteOponente -= 10 
+   }
+  
+  if (keyIsDown(83)){
+    ybagueteOponente += 10 
+}
+
+
+//function MovimentarMinhaBagueteOponente(){
+ // velyOponente = ypao - ybagueteOponente - bagueteComprimento /2 - 30;
+ // ybagueteOponente += velyOponente
+  
+}
+
+function incluiPlacar(){
+  stroke(255);
+  textAlign(CENTER);
+  textSize(16);
+  fill(color (175,238,238));
+  
+  rect(150, 10, 40, 20);
+ fill(255);
+  text(meusCookies, 170, 26);
+  
+  rect(450, 10, 40, 20);
+ fill(175,238,238);
+   text(cookiesOponentes, 470, 26);
+  
+}
+ 
+function marcaCookies(){  
+  if(xpao > 590){ 
+  meusCookies += 1;
+  }
+  
+   if(xpao < 10){ 
+  cookiesOponentes += 1;
+  }
+  
+}
